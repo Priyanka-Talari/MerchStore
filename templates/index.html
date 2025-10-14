@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MerchStore - Home</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<!-- Fixed Navigation Bar -->
+<nav class="navbar">
+  <div class="logo">
+    <a href="/">MerchStore</a>
+  </div>
+  <ul class="navbar-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/series">Chat</a></li>
+    <li><a href="/cart">🛒 Cart <span id="cartCount" class="cart-count">0</span></a></li>
+    <li id="userProfile">
+      <a href="/register" class="profile-link">Login</a>
+    </li>
+  </ul>
+</nav>
+
+  <!-- Home Section -->
+  <section id="home" class="home-section">
+    <div class="home-content">
+      <h1>Welcome to MerchStore</h1>
+      <p>Your one-stop shop for all the coolest merchandise. Start shopping now!</p>
+      <button onclick="window.location.href='customize.html'" class="customize-btn">
+        Customize Your Own Merch!
+      </button>
+    </div>
+  </section>
+
+  <!-- Dynamic Product Display -->
+  <section id="products" class="shop-section">
+    <h2>Our Products</h2>
+    <div class="products-container" id="productsContainer">
+      <!-- Products will be dynamically inserted here -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h3>MerchStore</h3>
+        <p>Bringing your favorite TV show merchandise to life with unique, high-quality designs. Express your fandom with style!</p>
+      </div>
+      <div class="footer-section contact">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> support@merchstore.com</p>
+        <p><i class="fas fa-phone"></i> +1 (555) 987-6543</p>
+        <p><i class="fas fa-map-marker-alt"></i> 456 Trendy Lane, Merch City, MC 67890</p>
+      </div>
+      <div class="footer-section social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 MerchStore. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/static/script.js"></script>
+
+</body>
+</html>

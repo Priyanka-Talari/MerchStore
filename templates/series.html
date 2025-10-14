@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Selection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff5722;
+            --dark: #212121;
+            --light: #ffffff;
+            --gray: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray);
+            background-image: url('/static/images/cartbg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 1s;
+        }
+
+        .page-title {
+            text-align: center;
+            margin: 30px 0 50px;
+            position: relative;
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+            animation: widthGrow 1.5s ease;
+        }
+
+        @keyframes widthGrow {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+
+        .character-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+            transform-origin: center;
+            animation: zoomIn 0.6s;
+        }
+
+        .character-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .character-card {
+            position: relative;
+            width: 300px;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 87, 34, 0.1);
+            transform-style: preserve-3d;
+            animation: fadeInUp 0.8s;
+        }
+
+        .character-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(255, 87, 34, 0.3);
+            border-color: var(--primary);
+        }
+
+        .character-card:nth-child(1) { animation-delay: 0.1s; }
+        .character-card:nth-child(2) { animation-delay: 0.2s; }
+        .character-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .character-card img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+            filter: brightness(0.9);
+        }
+
+        .character-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(1);
+        }
+
+        .character-info {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(33, 33, 33, 0.95), rgba(33, 33, 33, 0.8));
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: height 0.5s ease;
+        }
+
+        .character-card:hover .character-info {
+            height: 45%;
+            background: linear-gradient(to top, rgba(33, 33, 33, 0.98), rgba(33, 33, 33, 0.85));
+        }
+
+        .character-info h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--light);
+            position: relative;
+            display: inline-block;
+        }
+
+        .character-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        .character-card:hover .character-info h2::after {
+            width: 80%;
+        }
+
+        .character-info p {
+            font-size: 0.9rem;
+            margin: 10px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.1s;
+            color: var(--light);
+        }
+
+        .character-card:hover .character-info p {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .choose-btn {
+            padding: 12px 25px;
+            background-color: var(--primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.4s ease;
+            transform: translateY(20px) scale(0.9);
+            opacity: 0;
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .character-card:hover .choose-btn {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .choose-btn:hover {
+            background-color: #e64a19;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
+        }
+
+        .choose-btn:active {
+            transform: translateY(1px);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .btn-icon {
+            margin-right: 8px;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 87, 34, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(255, 87, 34, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .character-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .character-card {
+                width: 280px;
+                height: 420px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .character-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">Choose Your Character</h1>
+        
+        <div class="character-section">
+            <div class="character-container">
+                <div class="character-card" onclick="selectCharacter('peter')">
+                    <img src="/static/images/peter_back.jpg" alt="Spider-Man">
+                    <div class="character-info">
+                        <h2>Spider-Man</h2>
+                        <p>Come and let's dive into my heroic world of web-slinging adventures!</p>
+                        <a href="/templates/peter.html" class="choose-btn">
+                            <i class="fas fa-spider"></i> Choose Character
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="character-card" onclick="selectCharacter('jasmine')">
+                    <img src="/static/images/jass.jpg" alt="Princess Jasmine">
+                    <div class="character-info">
+                        <h2>Princess Jasmine</h2>
+                        <p>Want to know about Agrabah and my adventures? Let's talk!</p>
+                        <a href="/templates/jasmine.html" class="choose-btn">
+                            <i class="fas fa-crown"></i> Choose Character
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="character-card" onclick="selectCharacter('doraemon')">
+                    <img src="/static/images/dore.jpeg" alt="Doraemon">
+                    <div class="character-info">
+                        <h2>Doraemon</h2>
+                        <p>Let's talk about the future and explore my amazing gadgets!</p>
+                        <a href="/templates/doraemon.html" class="choose-btn">
+                            <i class="fas fa-robot"></i> Choose Character
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <a href="/" class="btn btn-outline">
+                    <i class="fas fa-home btn-icon"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced character selection with animation
+        function selectCharacter(character) {
+            const cards = document.querySelectorAll('.character-card');
+            const selectedCard = document.querySelector(`.character-card[onclick*="${character}"]`);
+            
+            // Add a special class to mark the selected card
+            selectedCard.classList.add('selected');
+            
+            // Animate all cards
+            cards.forEach(card => {
+                if (!card.classList.contains('selected')) {
+                    // Non-selected cards fade away
+                    card.style.transform = 'scale(0.8) translateY(50px)';
+                    card.style.opacity = '0';
+                    card.style.filter = 'blur(10px)';
+                } else {
+                    // Selected card zooms in
+                    card.style.transform = 'scale(1.1) translateY(-20px)';
+                    card.style.zIndex = '10';
+                    card.style.boxShadow = '0 25px 50px rgba(255, 87, 34, 0.8)';
+                }
+            });
+            
+            // Add page transition effect
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = '#ff5722';
+            overlay.style.zIndex = '9999';
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.8s ease-in-out';
+            document.body.appendChild(overlay);
+            
+            // Fade in the overlay
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+            }, 100);
+            
+            // Redirect after animation
+            setTimeout(() => {
+                window.location.href = `/templates/${character}.html`;
+            }, 900);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add 3D tilt effect on mousemove
+            const cards = document.querySelectorAll('.character-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const deltaX = (x - centerX) / centerX * 10;
+                    const deltaY = (y - centerY) / centerY * 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg) scale(1.03) translateY(-15px)`;
+                });
+                
+                // Reset transform on mouseleave
+                card.addEventListener('mouseleave', () => {
+                    if (!card.classList.contains('selected')) {
+                        card.style.transform = 'rotateY(0) rotateX(0) scale(1) translateY(0)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

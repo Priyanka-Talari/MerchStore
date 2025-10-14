@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/register.css">
+    <title>Register - Character Universe</title>
+</head>
+<body>
+    <div class="register-container">
+        <!-- Hero Section -->
+        <div class="register-hero">
+            <div class="hero-content">
+                <i class="ri-user-add-line hero-icon"></i>
+                <h2>Join Our Universe!</h2>
+                <p>Create an account to explore amazing characters and start your adventure with us.</p>
+            </div>
+        </div>
+
+        <!-- Register Form Section -->
+        <div class="register-form-section">
+            <div class="form-header">
+                <h1 class="form-title">Create Account</h1>
+                <p class="form-subtitle">Fill in your details to get started</p>
+            </div>
+
+            <form id="register-form">
+                <!-- Full Name Input -->
+                <div class="form-group">
+                    <input type="text" class="form-input" id="register-name" placeholder="Enter your full name" required>
+                    <i class="ri-user-3-line input-icon"></i>
+                </div>
+
+                <!-- Email Input -->
+                <div class="form-group">
+                    <input type="email" class="form-input" id="register-email" placeholder="Enter your email" required>
+                    <i class="ri-mail-line input-icon"></i>
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-group">
+                    <input type="password" class="form-input" id="register-password" placeholder="Create a password" required>
+                    <i class="ri-lock-2-line input-icon"></i>
+                    <i class="ri-eye-off-line input-icon password-toggle" id="register-password-toggle"></i>
+                </div>
+
+                <!-- Confirm Password Input -->
+                <div class="form-group">
+                    <input type="password" class="form-input" id="register-confirm-password" placeholder="Confirm your password" required>
+                    <i class="ri-lock-password-line input-icon"></i>
+                    <i class="ri-eye-off-line input-icon password-toggle" id="register-confirm-password-toggle"></i>
+                </div>
+
+                <!-- Terms Agreement -->
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" class="remember-checkbox" id="agree-terms" required>
+                        <label for="agree-terms" class="remember-label">I agree to the <a href="#" class="terms-link">Terms & Conditions</a></label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">
+                    <i class="ri-user-add-line"></i>
+                    Create Account
+                </button>
+
+                <!-- Login Link -->
+                <p class="login-link">
+                    Already have an account?
+                    <a href="http://127.0.0.1:5000/login">Sign in here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/register.js"></script>
+</body>
+</html>

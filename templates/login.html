@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/login.css">
+    <title>Login - Character Universe</title>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Hero Section -->
+        <div class="login-hero">
+            <div class="hero-content">
+                <i class="ri-shield-user-line hero-icon"></i>
+                <h2>Welcome Back!</h2>
+                <p>Sign in to access your favorite characters and continue your adventure in our universe.</p>
+            </div>
+        </div>
+
+        <!-- Login Form Section -->
+        <div class="login-form-section">
+            <div class="form-header">
+                <h1 class="form-title">Account Login</h1>
+                <p class="form-subtitle">Enter your credentials to continue</p>
+            </div>
+
+            <form id="login-form">
+                <!-- Email Input -->
+                <div class="form-group">
+                    <input type="email" class="form-input" id="login-email" placeholder="Enter your email" required>
+                    <i class="ri-mail-line input-icon"></i>
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-group">
+                    <input type="password" class="form-input" id="login-password" placeholder="Enter your password" required>
+                    <i class="ri-lock-2-line input-icon"></i>
+                    <i class="ri-eye-off-line input-icon password-toggle" id="password-toggle"></i>
+                </div>
+
+                <!-- Form Options -->
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" class="remember-checkbox" id="remember-me">
+                        <label for="remember-me" class="remember-label">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">
+                    <i class="ri-login-box-line"></i>
+                    Sign In
+                </button>
+
+                <p class="register-link">
+                  Don't have an account?
+                  <a href="register.html">Create account</a>
+              </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Customizer</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #f0f8ff, #f5f5f5);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    /* Product Selection Section */
+    .product-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card.selected {
+      border: 3px solid #e64520;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      background: #f9f9f9;
+      display: block;
+    }
+
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .product-price {
+      color: #e64520;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #e64520;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* Customization Section */
+    .customization-section {
+      display: none;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .customization-section.active {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .canvas-area {
+      flex: 2;
+      min-width: 300px;
+      position: relative;
+      border: 1px solid #ddd;
+      height: 400px;
+      overflow: hidden;
+      background: #f9f9f9;
+    }
+
+    .tools-area {
+      flex: 1;
+      min-width: 250px;
+      padding-left: 20px;
+    }
+
+    #customCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .product-preview {
+      max-width: 100%;
+      max-height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Tools */
+    .tool-group {
+      margin-bottom: 20px;
+    }
+
+    .tool-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .color-option.selected {
+      border-color: #333;
+    }
+
+    .action-button {
+      background: #e64520;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .action-button:hover {
+      background: #d13a18;
+    }
+
+    .text-control {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .select-control {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .file-input-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .file-input-container input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      outline: none;
+      cursor: pointer;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Product Customizer</h1>
+
+    <!-- Product Selection Section -->
+    <div class="product-section" id="productSection">
+      <!-- Products will be loaded here by JavaScript -->
+    </div>
+
+    <!-- Customization Section -->
+    <div class="customization-section" id="customizationSection">
+      <div class="canvas-area" id="canvasArea">
+        <img class="product-preview" id="productPreview" src="" alt="Product Preview" />
+        <canvas id="customCanvas"></canvas>
+      </div>
+      <div class="tools-area">
+        <h2>Customize Your <span id="productTitle">Product</span></h2>
+
+        <div class="tool-group">
+          <span class="tool-title">Add Text</span>
+          <input type="text" class="text-control" id="textInput" placeholder="Enter your text here" />
+          <button class="action-button" id="addTextBtn">Add Text</button>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-title">Font</span>
+          <select class="select-control" id="fontSelect">
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Impact">Impact</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+          </select>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-title">Text Color</span>
+          <div id="colorOptions">
+            <div class="color-option selected" style="background-color: #000000;" data-color="#000000"></div>
+            <div class="color-option" style="background-color: #ffffff;" data-color="#ffffff"></div>
+            <div class="color-option" style="background-color: #ff0000;" data-color="#ff0000"></div>
+            <div class="color-option" style="background-color: #00ff00;" data-color="#00ff00"></div>
+            <div class="color-option" style="background-color: #0000ff;" data-color="#0000ff"></div>
+            <div class="color-option" style="background-color: #ffff00;" data-color="#ffff00"></div>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-title">Add Image</span>
+          <div class="file-input-container">
+            <button class="action-button" id="uploadBtn">Choose Image</button>
+            <input type="file" id="imageUpload" accept="image/*" />
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-title">Actions</span>
+          <button class="action-button" id="clearCanvasBtn">Clear</button>
+          <button class="action-button" id="addToCartBtn">Add to Cart</button>
+          <button class="action-button" id="backToProductsBtn">Back to Products</button>
+          <button class="action-button" id="saveDesignBtn">Save Design</button> <!-- New Button -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Product data
+    const products = [
+      { id: 'tshirt', name: 'T-Shirt', image: '/static/images/pp1.webp', badge: 'New', price: 500 },
+      { id: 'cap', name: 'Cap', image: '/static/images/blackcap.jpg', price: 300 },
+      { id: 'polaroid', name: 'Polaroid', image: '/static/images/polaroidc.jpg', price: 200 },
+      { id: 'mug1', name: 'Mug', image: '/static/images/plainmug.jpg', price: 150 },
+      { id: 'hoodie', name: 'Hoodie', image: '/static/images/hoodiec.avif', badge: 'Trending', price: 800 },
+      { id: 'totebag', name: 'Tote Bag', image: '/static/images/totebagc.webp', price: 250 },
+      { id: 'pillow', name: 'Pillow', image: '/static/images/pillowc.jpg', price: 400 },
+      { id: 'diary', name: 'Diary Cover', image: '/static/images/diary.avif', badge: 'Hot', price: 350 }
+    ];
+
+    // DOM Elements
+    const productSection = document.getElementById('productSection');
+    const customizationSection = document.getElementById('customizationSection');
+    const productPreview = document.getElementById('productPreview');
+    const productTitle = document.getElementById('productTitle');
+    const textInput = document.getElementById('textInput');
+    const addTextBtn = document.getElementById('addTextBtn');
+    const clearCanvasBtn = document.getElementById('clearCanvasBtn');
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const backToProductsBtn = document.getElementById('backToProductsBtn');
+    const saveDesignBtn = document.getElementById('saveDesignBtn'); // New Button
+    const colorOptions = document.querySelectorAll('.color-option');
+    const fontSelect = document.getElementById('fontSelect');
+    const imageUpload = document.getElementById('imageUpload');
+
+    // Canvas setup
+    const canvas = document.getElementById('customCanvas');
+    const ctx = canvas.getContext('2d');
+    let canvasWidth = 500;
+    let canvasHeight = 500;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    // Customization variables
+    let selectedProduct = null;
+    let selectedColor = '#000000';
+    let selectedFont = 'Arial';
+    let canvasElements = [];
+    let isDragging = false;
+    let dragTarget = null;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    // Variables for resizing
+    let selectedElement = null; // currently selected element (for drag/resize)
+    let isResizing = false;
+    let currentResizeHandle = null;
+
+    // Utility: Get text bounds for text elements
+    function getTextBounds(element) {
+      ctx.font = element.font;
+      const textWidth = ctx.measureText(element.content).width;
+      return {
+        left: element.x - textWidth / 2,
+        top: element.y - element.fontSize,
+        right: element.x + textWidth / 2,
+        bottom: element.y
+      };
+    }
+
+    // Utility: Check if mouse is near a resize handle (corner) of the selected element
+    function getResizeHandleAtPosition(x, y) {
+      if (!selectedElement) return null;
+      const handleSize = 10;
+      let bounds;
+      if (selectedElement.type === 'text') {
+        bounds = getTextBounds(selectedElement);
+      } else if (selectedElement.type === 'image') {
+        bounds = {
+          left: selectedElement.x - selectedElement.width / 2,
+          top: selectedElement.y - selectedElement.height / 2,
+          right: selectedElement.x + selectedElement.width / 2,
+          bottom: selectedElement.y + selectedElement.height / 2
+        };
+      }
+      if (!bounds) return null;
+      if (Math.abs(x - bounds.left) <= handleSize && Math.abs(y - bounds.top) <= handleSize) {
+        return { element: selectedElement, handle: 'nw' };
+      }
+      if (Math.abs(x - bounds.right) <= handleSize && Math.abs(y - bounds.top) <= handleSize) {
+        return { element: selectedElement, handle: 'ne' };
+      }
+      if (Math.abs(x - bounds.left) <= handleSize && Math.abs(y - bounds.bottom) <= handleSize) {
+        return { element: selectedElement, handle: 'sw' };
+      }
+      if (Math.abs(x - bounds.right) <= handleSize && Math.abs(y - bounds.bottom) <= handleSize) {
+        return { element: selectedElement, handle: 'se' };
+      }
+      return null;
+    }
+
+    // Update cursor style based on position (shows resize cursor near handles)
+    function updateCursorStyle(e) {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      const resizeHandleInfo = getResizeHandleAtPosition(mouseX, mouseY);
+      if (resizeHandleInfo) {
+        if (resizeHandleInfo.handle === 'nw' || resizeHandleInfo.handle === 'se') {
+          canvas.style.cursor = 'nwse-resize';
+        } else if (resizeHandleInfo.handle === 'ne' || resizeHandleInfo.handle === 'sw') {
+          canvas.style.cursor = 'nesw-resize';
+        }
+      } else {
+        canvas.style.cursor = 'default';
+      }
+    }
+
+    // Initialize page
+    function init() {
+      loadProducts();
+      setupEventListeners();
+      renderCanvas();
+    }
+
+    // Load product cards
+    function loadProducts() {
+      productSection.innerHTML = '';
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.productId = product.id;
+        let badgeHTML = '';
+        if (product.badge) {
+          badgeHTML = `<div class="product-badge">${product.badge}</div>`;
+        }
+        card.innerHTML = `
+          ${badgeHTML}
+          <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/200x200?text=Image+Not+Found'">
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">₹${product.price}</div>
+          </div>
+        `;
+        productSection.appendChild(card);
+      });
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      productSection.addEventListener('click', function(e) {
+        const card = e.target.closest('.product-card');
+        if (card) {
+          selectProduct(card.dataset.productId);
+        }
+      });
+
+      addTextBtn.addEventListener('click', function() {
+        addTextToCanvas(textInput.value);
+        textInput.value = '';
+      });
+
+      textInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          addTextToCanvas(textInput.value);
+          textInput.value = '';
+        }
+      });
+
+      fontSelect.addEventListener('change', function() {
+        selectedFont = fontSelect.value;
+      });
+
+      clearCanvasBtn.addEventListener('click', function() {
+        canvasElements = [];
+        renderCanvas();
+      });
+
+      addToCartBtn.addEventListener('click', function() {
+        if (!selectedProduct) {
+          alert('Please select a product first.');
+          return;
+        }
+        if (canvasElements.length === 0) {
+          alert('Please add at least one customization (text or image) before adding to cart.');
+          return;
+        }
+
+        // Save the selected product and customization details to localStorage
+        const cartItem = {
+          product: selectedProduct,
+          customization: canvasElements,
+          basePrice: selectedProduct.price // Explicitly include the base price
+        };
+        localStorage.setItem('cartItem', JSON.stringify(cartItem));
+
+        // Redirect to cart.html
+        window.location.href = 'cart.html';
+      });
+
+      backToProductsBtn.addEventListener('click', function() {
+        showProductSection();
+      });
+
+      saveDesignBtn.addEventListener('click', saveDesign); // New Event Listener
+
+      colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          colorOptions.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+          selectedColor = option.dataset.color;
+        });
+      });
+
+      imageUpload.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            addImageToCanvas(event.target.result);
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
+
+      canvas.addEventListener('mousedown', handleCanvasMouseDown);
+      canvas.addEventListener('mousemove', handleCanvasMouseMove);
+      canvas.addEventListener('mouseup', handleCanvasMouseUp);
+      canvas.addEventListener('mouseout', handleCanvasMouseUp);
+      canvas.addEventListener('mousemove', updateCursorStyle);
+
+      canvas.addEventListener('touchstart', handleCanvasTouchStart);
+      canvas.addEventListener('touchmove', handleCanvasTouchMove);
+      canvas.addEventListener('touchend', handleCanvasTouchEnd);
+    }
+
+    // Select product and show customization
+    function selectProduct(productId) {
+      selectedProduct = products.find(p => p.id === productId);
+      if (selectedProduct) {
+        productTitle.textContent = selectedProduct.name;
+        productPreview.src = selectedProduct.image;
+        productPreview.onerror = function() {
+          this.src = 'https://via.placeholder.com/400x400?text=Image+Not+Found';
+        };
+        customizationSection.classList.add('active');
+        customizationSection.scrollIntoView({ behavior: 'smooth' });
+        canvasElements = [];
+        renderCanvas();
+      }
+    }
+
+    // Add text to canvas
+    function addTextToCanvas(text) {
+      if (!text.trim()) return;
+      const textElement = {
+        type: 'text',
+        content: text,
+        x: canvasWidth / 2,
+        y: canvasHeight / 2,
+        color: selectedColor,
+        font: `24px ${selectedFont}`,
+        fontSize: 24,
+        fontFamily: selectedFont,
+        draggable: true
+      };
+      canvasElements.push(textElement);
+      selectedElement = textElement; // select new element
+      renderCanvas();
+    }
+
+    // Add image to canvas
+    function addImageToCanvas(imageSrc) {
+      const img = new Image();
+      img.src = imageSrc;
+      img.onload = function() {
+        let width = img.width;
+        let height = img.height;
+        const maxDimension = 150;
+        if (width > height) {
+          if (width > maxDimension) {
+            height = height * (maxDimension / width);
+            width = maxDimension;
+          }
+        } else {
+          if (height > maxDimension) {
+            width = width * (maxDimension / height);
+            height = maxDimension;
+          }
+        }
+        const imageElement = {
+          type: 'image',
+          content: img,
+          x: canvasWidth / 2,
+          y: canvasHeight / 2,
+          width: width,
+          height: height,
+          draggable: true
+        };
+        canvasElements.push(imageElement);
+        selectedElement = imageElement; // select new image
+        renderCanvas();
+      };
+      img.onerror = function() {
+        alert('Error loading image. Please try another one.');
+      };
+    }
+
+    // Render all elements on canvas
+    function renderCanvas() {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      canvasElements.forEach(element => {
+        if (element.type === 'text') {
+          ctx.font = element.font;
+          ctx.fillStyle = element.color;
+          ctx.textAlign = 'center';
+          ctx.fillText(element.content, element.x, element.y);
+        } else if (element.type === 'image') {
+          ctx.drawImage(
+            element.content,
+            element.x - element.width / 2,
+            element.y - element.height / 2,
+            element.width,
+            element.height
+          );
+        }
+      });
+    }
+
+    // Show product section
+    function showProductSection() {
+      customizationSection.classList.remove('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Mouse down handler for dragging/resizing
+    function handleCanvasMouseDown(e) {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // First, check if clicking near a resize handle of the selected element
+      const resizeInfo = getResizeHandleAtPosition(mouseX, mouseY);
+      if (resizeInfo) {
+        selectedElement = resizeInfo.element;
+        isResizing = true;
+        currentResizeHandle = resizeInfo.handle;
+        return;
+      }
+
+      // Otherwise, check if clicking on an element for dragging
+      for (let i = canvasElements.length - 1; i >= 0; i--) {
+        const element = canvasElements[i];
+        if (element.type === 'text' && element.draggable) {
+          ctx.font = element.font;
+          const textWidth = ctx.measureText(element.content).width;
+          if (
+            mouseX > element.x - textWidth / 2 &&
+            mouseX < element.x + textWidth / 2 &&
+            mouseY > element.y - element.fontSize &&
+            mouseY < element.y
+          ) {
+            isDragging = true;
+            dragTarget = element;
+            dragOffsetX = mouseX - element.x;
+            dragOffsetY = mouseY - element.y;
+            selectedElement = element;
+            return;
+          }
+        } else if (element.type === 'image' && element.draggable) {
+          if (
+            mouseX > element.x - element.width / 2 &&
+            mouseX < element.x + element.width / 2 &&
+            mouseY > element.y - element.height / 2 &&
+            mouseY < element.y + element.height / 2
+          ) {
+            isDragging = true;
+            dragTarget = element;
+            dragOffsetX = mouseX - element.x;
+            dragOffsetY = mouseY - element.y;
+            selectedElement = element;
+            return;
+          }
+        }
+      }
+    }
+
+    // Mouse move handler for dragging/resizing
+    function handleCanvasMouseMove(e) {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      if (isResizing && selectedElement) {
+        if (selectedElement.type === 'image') {
+          const left = selectedElement.x - selectedElement.width / 2;
+          const right = selectedElement.x + selectedElement.width / 2;
+          const top = selectedElement.y - selectedElement.height / 2;
+          const bottom = selectedElement.y + selectedElement.height / 2;
+          let newLeft = left, newRight = right, newTop = top, newBottom = bottom;
+          if (currentResizeHandle === 'nw') {
+            newLeft = mouseX;
+            newTop = mouseY;
+          } else if (currentResizeHandle === 'ne') {
+            newRight = mouseX;
+            newTop = mouseY;
+          } else if (currentResizeHandle === 'sw') {
+            newLeft = mouseX;
+            newBottom = mouseY;
+          } else if (currentResizeHandle === 'se') {
+            newRight = mouseX;
+            newBottom = mouseY;
+          }
+          const newWidth = newRight - newLeft;
+          const newHeight = newBottom - newTop;
+          selectedElement.x = newLeft + newWidth / 2;
+          selectedElement.y = newTop + newHeight / 2;
+          selectedElement.width = newWidth;
+          selectedElement.height = newHeight;
+        } else if (selectedElement.type === 'text') {
+          const bounds = getTextBounds(selectedElement);
+          let newLeft = bounds.left, newRight = bounds.right, newTop = bounds.top, newBottom = bounds.bottom;
+          if (currentResizeHandle === 'nw') {
+            newLeft = mouseX;
+            newTop = mouseY;
+          } else if (currentResizeHandle === 'ne') {
+            newRight = mouseX;
+            newTop = mouseY;
+          } else if (currentResizeHandle === 'sw') {
+            newLeft = mouseX;
+            newBottom = mouseY;
+          } else if (currentResizeHandle === 'se') {
+            newRight = mouseX;
+            newBottom = mouseY;
+          }
+          const newWidth = newRight - newLeft;
+          const newHeight = newBottom - newTop;
+          // Update font size roughly based on new height
+          selectedElement.fontSize = Math.max(10, newHeight);
+          selectedElement.font = `${selectedElement.fontSize}px ${selectedElement.fontFamily}`;
+          selectedElement.x = newLeft + newWidth / 2;
+          selectedElement.y = newTop + newHeight;
+        }
+        renderCanvas();
+        return;
+      }
+      if (isDragging && dragTarget) {
+        dragTarget.x = mouseX - dragOffsetX;
+        dragTarget.y = mouseY - dragOffsetY;
+        renderCanvas();
+      }
+    }
+
+    // Mouse up handler
+    function handleCanvasMouseUp(e) {
+      isDragging = false;
+      isResizing = false;
+      dragTarget = null;
+      currentResizeHandle = null;
+    }
+
+    // Touch event handlers
+    function handleCanvasTouchStart(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousedown', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      handleCanvasMouseDown(mouseEvent);
+    }
+
+    function handleCanvasTouchMove(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousemove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      handleCanvasMouseMove(mouseEvent);
+    }
+
+    function handleCanvasTouchEnd(e) {
+      e.preventDefault();
+      const mouseEvent = new MouseEvent('mouseup', {});
+      handleCanvasMouseUp(mouseEvent);
+    }
+
+    // Function to capture the canvas as an image
+    function captureCanvasImage() {
+      return canvas.toDataURL('image/png'); // Convert canvas to base64 image
+    }
+
+    // Save design
+    async function saveDesign() {
+      if (!selectedProduct) {
+        alert('Please select a product first.');
+        return;
+      }
+
+      // Capture the canvas as an image
+      const imageData = captureCanvasImage();
+
+      const designData = {
+        productId: selectedProduct.id,
+        image: imageData,
+      };
+
+      console.log("Sending data to backend:", designData); // Debugging statement
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/save_design', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(designData),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Backend error:", errorData); // Debugging statement
+          throw new Error(errorData.error || 'Failed to save design');
+        }
+
+        const result = await response.json();
+        if (result.success) {
+          alert('Design saved successfully!');
+        } else {
+          alert('Failed to save design.');
+        }
+      } catch (error) {
+        console.error('Error saving design:', error);
+        alert('An error occurred while saving the design.');
+      }
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>

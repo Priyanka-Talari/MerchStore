@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to bottom, #f0f8ff, #f5f5f5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .product-card button {
+            background: #e64520;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .product-card button:hover {
+            background: #cf3d19;
+        }
+
+        .product-card button:active {
+            transform: translateY(2px);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #e64520;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose Your Product</h1>
+    <div class="product-grid">
+        <div class="product-card">
+            <span class="badge">New</span>
+            <img src="/static/images/plaint.jpg" alt="Plain T-Shirt">
+            <p>Plain T-Shirt</p>
+            <button onclick="selectProduct('tshirt')">Customize</button>
+        </div>
+        <div class="product-card">
+            <img src="/static/images/tshirt2.png" alt="Graphic T-Shirt">
+            <p>Graphic T-Shirt</p>
+            <button onclick="selectProduct('tshirt2')">Customize</button>
+        </div>
+        <div class="product-card">
+            <img src="/static/images/cap1.png" alt="Plain Cap">
+            <p>Plain Cap</p>
+            <button onclick="selectProduct('cap1')">Customize</button>
+        </div>
+        <div class="product-card">
+            <img src="/static/images/mug1.png" alt="Custom Mug">
+            <p>Custom Mug</p>
+            <button onclick="selectProduct('mug1')">Customize</button>
+        </div>
+        <div class="product-card">
+            <span class="badge">Trending</span>
+            <img src="/static/images/hoodie.png" alt="Custom Hoodie">
+            <p>Custom Hoodie</p>
+            <button onclick="selectProduct('hoodie')">Customize</button>
+        </div>
+        <div class="product-card">
+            <img src="/static/images/totebag.png" alt="Tote Bag">
+            <p>Custom Tote Bag</p>
+            <button onclick="selectProduct('totebag')">Customize</button>
+        </div>
+        <div class="product-card">
+            <img src="/static/images/keychain.png" alt="Custom Keychain">
+            <p>Custom Keychain</p>
+            <button onclick="selectProduct('keychain')">Customize</button>
+        </div>
+        <div class="product-card">
+            <span class="badge">Hot</span>
+            <img src="/static/images/bottle.png" alt="Custom Water Bottle">
+            <p>Custom Water Bottle</p>
+            <button onclick="selectProduct('bottle')">Customize</button>
+        </div>
+    </div>
+
+    <script>
+        function selectProduct(productName) {
+            // Save selected product name in localStorage
+            localStorage.setItem('selectedProduct', productName);
+            // Redirect to customization page
+            window.location.href = 'customize.html';
+        }
+    </script>
+</body>
+</html>

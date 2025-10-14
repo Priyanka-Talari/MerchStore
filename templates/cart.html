@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - MerchStore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/cart.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">Your Shopping Cart</h1>
+
+        <div class="cart-section" id="cart-items-container">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+
+        <div class="payment-section">
+            <h3 class="section-title">Payment Method</h3>
+            <div class="payment-methods">
+                <div class="payment-method-item">
+                    <input type="radio" id="cod" name="payment-method" value="cod" checked>
+                    <label for="cod">
+                        <i class="fas fa-money-bill-wave payment-icon"></i>
+                        <span class="payment-option">Cash on Delivery</span>
+                    </label>
+                </div>
+
+                <div class="payment-method-item">
+                    <input type="radio" id="card" name="payment-method" value="card">
+                    <label for="card">
+                        <i class="fas fa-credit-card payment-icon"></i>
+                        <span class="payment-option">Credit/Debit Card</span>
+                    </label>
+                </div>
+
+                <div class="payment-method-item">
+                    <input type="radio" id="upi" name="payment-method" value="upi">
+                    <label for="upi">
+                        <i class="fas fa-mobile-alt payment-icon"></i>
+                        <span class="payment-option">UPI</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="card-payment-form" class="form-container" style="display: none;">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="form-group">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" id="expiry" maxlength="5" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" maxlength="4" placeholder="123">
+                </div>
+            </div>
+
+            <div id="upi-payment-form" class="form-container" style="display: none;">
+                <div class="form-group">
+                    <label for="upiID">UPI ID</label>
+                    <input type="text" id="upiID" placeholder="yourupi@bank">
+                </div>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <h3>Total Amount</h3>
+            <span class="total-price" id="total-price">₹0.00</span>
+        </div>
+
+        <div class="button-group">
+            <button id="clear-cart" class="btn btn-outline">
+                <i class="fas fa-trash-alt btn-icon"></i>Clear Cart
+            </button>
+            <button id="checkout-btn" class="btn btn-primary">
+                <i class="fas fa-check-circle btn-icon"></i>Place Order (COD)
+            </button>
+            <a href="./index.html" class="btn btn-link">
+                <i class="fas fa-arrow-left btn-icon"></i>Continue Shopping
+            </a>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-checkmark"></div>
+            <h2>Order Placed Successfully!</h2>
+            <p>Your order has been confirmed and will be delivered soon.</p>
+            <button onclick="window.location.href='./index.html'" class="btn btn-primary">
+                <i class="fas fa-shopping-bag btn-icon"></i>Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <script src="/static/cart.js"></script>
+</body>
+</html>
