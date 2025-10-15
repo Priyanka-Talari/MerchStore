@@ -16,10 +16,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Database connection
 def get_db_connection():
     return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='Priyank@1613',
-        database='merchstore'
+        host=os.environ['localhost'],
+        user=os.environ['root'],
+        password=os.environ['Priyank@1613'],
+        database=os.environ['merchstore']
     )
 
 def allowed_file(filename):
