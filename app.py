@@ -70,7 +70,6 @@ def login_html():
     return render_template('login.html')
 
 
-
 # Products API for store frontend
 @app.route('/products')
 def get_products():
