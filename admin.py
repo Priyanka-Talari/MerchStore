@@ -3,9 +3,6 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import os
 import mysql.connector
-import psycopg2
-import psycopg2.extras
-
 
 app = Flask(__name__)
 CORS(app)
@@ -17,13 +14,12 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # --- Database Connection ---
 def get_db_connection():
-    return psycopg2.connect(
-        host='dpg-d3ov6ae3jp1c739pfs9g-a',          # from your Render Internal DB URL
-        database='merchstore_db',
-        user='merchstore_db_user',
-        password='YOUR_PASSWORD',                    # copy from Render
-        port=5432
-    )
+    return mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='Priyank@1613',
+    database='merchstore'
+)
 
 
 # --- Utility ---
