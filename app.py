@@ -3,6 +3,8 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import os
 import mysql.connector
+import psycopg2
+import psycopg2.extras
 
 app = Flask(__name__)
 CORS(app)
@@ -13,14 +15,18 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Database connection
+
+
 def get_db_connection():
-    return mysql.connector.connect(
-        host=os.environ['localhost'],
-        user=os.environ['root'],
-        password=os.environ['Priyank@1613'],
-        database=os.environ['merchstore']
+    return psycopg2.connect(
+        host='dpg-d3ov6ae3jp1c739pfs9g-a',          # from your Render Internal DB URL
+        database='merchstore_db',
+        user='merchstore_db_user',
+        password='YOUR_PASSWORD',                    # copy from Render
+        port=5432
     )
+
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
