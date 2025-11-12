@@ -6,10 +6,10 @@ This project combines creativity and technology to deliver a fun, interactive, a
 
 ## 🚀 Features
 
-- 🔐 **User Login & Admin Panel** – Secure authentication and easy product management.  
-- 💬 **AI Character Chatbots** – Chat with Spiderman, Doraemon, and Princess Jasmine for interactive engagement.  
-- 🎨 **Product Customization** – Personalize items with custom text and colors.  
-- 📱 **Responsive Design** – Seamless shopping across mobile, tablet, and desktop.  
+- **User Login & Admin Panel** – Secure authentication and easy product management.  
+- **AI Character Chatbots** – Chat with Spiderman, Doraemon, and Princess Jasmine for interactive engagement.  
+- **Product Customization** – Personalize items with custom text and colors.  
+- **Responsive Design** – Seamless shopping across mobile, tablet, and desktop.  
 
 ---
 
