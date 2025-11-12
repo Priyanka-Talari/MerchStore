@@ -26,7 +26,9 @@ This project combines creativity and technology to deliver a fun, interactive, a
 
 ## 🖼️ Screenshots
 
-### 🏠 Home Page
+### Home Page
+![MerchStore Screenshot](https://github.com/Priyanka-Talari/MerchStore/blob/main/merchstore%20main%20page.PNG?raw=true)
+
 
 
 ---
