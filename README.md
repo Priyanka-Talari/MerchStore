@@ -22,14 +22,7 @@ This project combines creativity and technology to deliver a fun, interactive, a
 | **Database** | MySQL, Firebase |
 | **Version Control** | Git, GitHub |
 
----
 
-## 🖼️ Screenshots
+https://github.com/user-attachments/assets/d77b6b56-de1c-4bad-8b39-3a16233a3cc1
 
-### Home Page
-![MerchStore Screenshot](https://github.com/Priyanka-Talari/MerchStore/blob/main/merchstore%20main%20page.PNG?raw=true)
-
-
-
----
 
